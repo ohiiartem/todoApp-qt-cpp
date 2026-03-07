@@ -1,48 +1,47 @@
-# ------------------------
-# Qt / qmake specific files
-# ------------------------
-
-# Qt Creator project files
+# ========================
+# Qt / qmake
+# ========================
 *.pro.user
 *.pro.user.*
-*.qtcuser
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h
+.qmake.stash
+Makefile
+Makefile.*
 
-# Build directories
+# ========================
+# Build
+# ========================
+build/
 build-*/
+debug/
+release/
 *.o
 *.obj
-*.so
-*.dll
-*.exe
 *.a
 *.lib
-*.dylib
-*.pdb
+*.dll
+*.exe
+*.out
+*.app
 
-# qmake generated files
-Makefile
-*.moc
-ui_*.h
-qrc_*.cpp
-
-# Qt Designer temporary files
-*.ui~
-*.qrc~
-
-# Backup and temporary files
-*~
-*.bak
-*.backup
+# ========================
+# IDE
+# ========================
+.vscode/
+.idea/
 *.swp
-*.tmp
-*.autosave
+*.swo
+*~
 
-# Style sheets and resources
-*.qss~
-
-# System files
+# ========================
+# macOS
+# ========================
 .DS_Store
-Thumbs.db
-desktop.ini
-
-
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
