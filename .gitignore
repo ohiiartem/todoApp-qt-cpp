@@ -1,0 +1,48 @@
+# ------------------------
+# Qt / qmake specific files
+# ------------------------
+
+# Qt Creator project files
+*.pro.user
+*.pro.user.*
+*.qtcuser
+
+# Build directories
+build-*/
+*.o
+*.obj
+*.so
+*.dll
+*.exe
+*.a
+*.lib
+*.dylib
+*.pdb
+
+# qmake generated files
+Makefile
+*.moc
+ui_*.h
+qrc_*.cpp
+
+# Qt Designer temporary files
+*.ui~
+*.qrc~
+
+# Backup and temporary files
+*~
+*.bak
+*.backup
+*.swp
+*.tmp
+*.autosave
+
+# Style sheets and resources
+*.qss~
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+
