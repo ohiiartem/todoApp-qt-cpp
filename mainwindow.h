@@ -21,7 +21,8 @@ private:
     enum class AppState
     {
         Empty,
-        CreatingTask
+        CreatingTask,
+        ListViewMode
     };
 
 
@@ -32,6 +33,9 @@ private:
 
     AppState currentState;
     void setState(AppState newState);
+
+private slots:
+    void onTaskConfirmed();
 };
 #endif // MAINWINDOW_H
 

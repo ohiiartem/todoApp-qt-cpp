@@ -30,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent)
     layout->addWidget(subHintLabel);
     layout->addStretch();
 
+    connect(taskLineEdit, &QLineEdit::returnPressed, this, &MainWindow::onTaskConfirmed);
+
     layout->setAlignment(Qt::AlignCenter);
 
     QWidget *centralWidget = new QWidget(this);
@@ -57,14 +59,22 @@ void MainWindow::setState(AppState newState)
         hintLabel->show();
         subHintLabel->show();
 
+        this->setFocus();
 
         break;
+
     case AppState::CreatingTask:
         hintLabel->hide();
         subHintLabel->hide();
 
         taskLineEdit->show();
+        taskLineEdit->setFocus();
+
         break;
+
+    case AppState::ListViewMode:
+        taskLineEdit->hide();
+        hintLabel->setText("ListViewMode");
     }
 }
 
@@ -81,6 +91,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             setState(AppState::CreatingTask);
         }
         break;
+
     case AppState::CreatingTask:
         if(event->key() == Qt::Key_Escape)
         {
@@ -89,7 +100,22 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         break;
 
     }
+
 }
+
+
+void MainWindow::onTaskConfirmed()
+{
+    QString taskText = taskLineEdit->text().trimmed();
+    if (!taskText.isEmpty())
+    {
+        taskLineEdit->clear();
+        setState(AppState::Empty);
+    }
+}
+
+
+
 
 
 
