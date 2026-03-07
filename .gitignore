@@ -1,47 +1,9 @@
-# ========================
-# Qt / qmake
-# ========================
-*.pro.user
-*.pro.user.*
-moc_*.cpp
-moc_*.h
-qrc_*.cpp
-ui_*.h
-.qmake.stash
-Makefile
-Makefile.*
-
-# ========================
-# Build
-# ========================
+# Qt build folders
 build/
-build-*/
-debug/
-release/
 *.o
 *.obj
-*.a
-*.lib
-*.dll
 *.exe
-*.out
-*.app
-
-# ========================
-# IDE
-# ========================
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# ========================
-# macOS
-# ========================
-.DS_Store
-.AppleDouble
-.LSOverride
-._*
-.Spotlight-V100
-.Trashes
+*.dll
+*.so
+*.dylib
+*.log
