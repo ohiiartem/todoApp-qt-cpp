@@ -28,7 +28,7 @@ private:
     QLabel *hintLabel;
     QLabel *subHintLabel;
 
-
+    QLineEdit *taskLineEdit;
 
     AppState currentState;
     void setState(AppState newState);

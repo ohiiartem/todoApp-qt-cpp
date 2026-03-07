@@ -17,8 +17,13 @@ MainWindow::MainWindow(QWidget *parent)
     subHintLabel = new QLabel();
     subHintLabel->setAlignment(Qt::AlignCenter);
 
+    taskLineEdit = new QLineEdit();
+    taskLineEdit->setAlignment(Qt::AlignCenter);
+    taskLineEdit->hide();
+
 
     QVBoxLayout *layout = new QVBoxLayout();
+    layout->addWidget(taskLineEdit);
     layout->addStretch();
     layout->addWidget(hintLabel);
     layout->addSpacing(10);
@@ -31,12 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     centralWidget->setLayout(layout);
     setCentralWidget(centralWidget);
 
-
-
-
     setState(AppState::Empty);
-
-
 }
 
 MainWindow::~MainWindow() {}
@@ -52,13 +52,18 @@ void MainWindow::setState(AppState newState)
         hintLabel->setText("Press N");
         subHintLabel->setText("to create a task");
 
+        taskLineEdit->hide();
+
         hintLabel->show();
         subHintLabel->show();
 
+
         break;
     case AppState::CreatingTask:
-        hintLabel->setText("ESC");
-        subHintLabel->setText("");
+        hintLabel->hide();
+        subHintLabel->hide();
+
+        taskLineEdit->show();
         break;
     }
 }
