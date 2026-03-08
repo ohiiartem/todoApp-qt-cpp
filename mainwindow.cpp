@@ -21,12 +21,12 @@ MainWindow::MainWindow(QWidget *parent)
     taskLineEdit->setAlignment(Qt::AlignCenter);
     taskLineEdit->hide();
 
-    ListLabels = new QLabel();
+    taskList = new QListWidget();
 
 
     QVBoxLayout *layout = new QVBoxLayout();
+    layout->addWidget(taskList);
     layout->addWidget(taskLineEdit);
-    layout->addWidget(ListLabels);
     layout->addStretch();
     layout->addWidget(hintLabel);
     layout->addSpacing(10);
@@ -58,6 +58,7 @@ void MainWindow::setState(AppState newState)
         subHintLabel->setText("to create a task");
 
         taskLineEdit->hide();
+        taskList->hide();
 
         hintLabel->show();
         subHintLabel->show();
@@ -72,12 +73,20 @@ void MainWindow::setState(AppState newState)
 
         taskLineEdit->show();
         taskLineEdit->setFocus();
+        taskList->hide();
+
+        if(taskList->count() > 0)
+        {
+            taskList->show();
+        }
 
         break;
 
     case AppState::ListViewMode:
         taskLineEdit->hide();
-        hintLabel->setText("ListViewMode");
+        hintLabel->hide();
+
+        taskList->show();
     }
 }
 
@@ -121,7 +130,7 @@ void MainWindow::onTaskConfirmed()
     {
         taskLineEdit->clear();
 
-        ListLabels->setText(taskText);
+        taskList->addItem(taskText);
         setState(AppState::ListViewMode);
         this->setFocus();
     }

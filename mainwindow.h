@@ -5,6 +5,7 @@
 
 #include <QLabel>
 #include <QLineEdit>
+#include <QListWidget>
 
 class MainWindow : public QMainWindow
 {
@@ -31,7 +32,7 @@ private:
 
     QLineEdit *taskLineEdit;
 
-    QLabel *ListLabels;
+    QListWidget *taskList;
 
     AppState currentState;
     void setState(AppState newState);
