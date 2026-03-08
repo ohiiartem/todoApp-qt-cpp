@@ -102,6 +102,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
         break;
 
+    case AppState::ListViewMode:
+        if(event->key() == Qt::Key_N)
+        {
+            setState(AppState::CreatingTask);
+        }
+        break;
     }
 
 }
@@ -117,6 +123,7 @@ void MainWindow::onTaskConfirmed()
 
         ListLabels->setText(taskText);
         setState(AppState::ListViewMode);
+        this->setFocus();
     }
 }
 
