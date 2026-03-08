@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     taskList = new QListWidget();
 
+    taskList->installEventFilter(this);
+
 
     QVBoxLayout *layout = new QVBoxLayout();
     layout->addWidget(taskList);
@@ -87,6 +89,9 @@ void MainWindow::setState(AppState newState)
         hintLabel->hide();
 
         taskList->show();
+        taskList->setFocus();
+        taskList->setCurrentRow(taskList->count()-1);
+
     }
 }
 
@@ -132,8 +137,21 @@ void MainWindow::onTaskConfirmed()
 
         taskList->addItem(taskText);
         setState(AppState::ListViewMode);
-        this->setFocus();
     }
+}
+
+bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
+{
+    if(obj == taskList && event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        if (keyEvent->key() == Qt::Key_N)
+        {
+            setState(AppState::CreatingTask);
+            return true;
+        }
+    }
+    return QMainWindow::eventFilter(obj, event);
 }
 
 
