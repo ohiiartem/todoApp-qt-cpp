@@ -21,9 +21,12 @@ MainWindow::MainWindow(QWidget *parent)
     taskLineEdit->setAlignment(Qt::AlignCenter);
     taskLineEdit->hide();
 
+    ListLabels = new QLabel();
+
 
     QVBoxLayout *layout = new QVBoxLayout();
     layout->addWidget(taskLineEdit);
+    layout->addWidget(ListLabels);
     layout->addStretch();
     layout->addWidget(hintLabel);
     layout->addSpacing(10);
@@ -107,10 +110,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 void MainWindow::onTaskConfirmed()
 {
     QString taskText = taskLineEdit->text().trimmed();
+
     if (!taskText.isEmpty())
     {
         taskLineEdit->clear();
-        setState(AppState::Empty);
+
+        ListLabels->setText(taskText);
+        setState(AppState::ListViewMode);
     }
 }
 

@@ -31,6 +31,8 @@ private:
 
     QLineEdit *taskLineEdit;
 
+    QLabel *ListLabels;
+
     AppState currentState;
     void setState(AppState newState);
 
