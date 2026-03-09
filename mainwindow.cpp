@@ -112,7 +112,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     case AppState::CreatingTask:
         if(event->key() == Qt::Key_Escape)
         {
-            setState(AppState::Empty);
+            if(taskList->count() == 0)
+            {
+                setState(AppState::Empty);
+            }
         }
         break;
 
@@ -121,7 +124,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         {
             setState(AppState::CreatingTask);
         }
-        break;
     }
 
 }
@@ -142,12 +144,25 @@ void MainWindow::onTaskConfirmed()
 
 bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
 {
+
     if(obj == taskList && event->type() == QEvent::KeyPress)
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
         if (keyEvent->key() == Qt::Key_N)
         {
             setState(AppState::CreatingTask);
+            return true;
+        }
+
+        if(keyEvent->key() == Qt::Key_D)
+        {
+            int row = taskList->currentRow();
+            if (row != -1)
+            {
+                delete taskList->takeItem(row);
+                if (taskList->count() == 0)
+                    setState(AppState::Empty);
+            }
             return true;
         }
     }
