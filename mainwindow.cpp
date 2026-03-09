@@ -148,6 +148,7 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
     if(obj == taskList && event->type() == QEvent::KeyPress)
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+
         if (keyEvent->key() == Qt::Key_N)
         {
             setState(AppState::CreatingTask);
@@ -162,6 +163,18 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
                 delete taskList->takeItem(row);
                 if (taskList->count() == 0)
                     setState(AppState::Empty);
+            }
+            return true;
+        }
+
+        if(keyEvent->key() == Qt::Key_Space)
+        {
+            QListWidgetItem *item = taskList->currentItem();
+            if(item)
+            {
+                QFont font = item->font();
+                font.setStrikeOut(!font.strikeOut());
+                item->setFont(font);
             }
             return true;
         }
