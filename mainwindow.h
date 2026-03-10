@@ -38,8 +38,11 @@ private:
     AppState currentState;
     void setState(AppState newState);
 
+    QListWidgetItem *editingItem = nullptr;
+
 private slots:
     void onTaskConfirmed();
+    void EditTask();
 };
 #endif // MAINWINDOW_H
 

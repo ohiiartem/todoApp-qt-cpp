@@ -112,10 +112,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     case AppState::CreatingTask:
         if(event->key() == Qt::Key_Escape)
         {
+            editingItem = nullptr;
             if(taskList->count() == 0)
-            {
                 setState(AppState::Empty);
-            }
+            else
+                setState(AppState::ListViewMode);
         }
         break;
 
@@ -133,14 +134,28 @@ void MainWindow::onTaskConfirmed()
 {
     QString taskText = taskLineEdit->text().trimmed();
 
-    if (!taskText.isEmpty())
+    if (editingItem != nullptr)
+    {
+        if (!taskText.isEmpty())
+            editingItem->setText(taskText);
+        editingItem = nullptr;
+        taskLineEdit->clear();
+        setState(AppState::ListViewMode);
+    }
+    else if (!taskText.isEmpty())
     {
         taskLineEdit->clear();
-
         taskList->addItem(taskText);
         setState(AppState::ListViewMode);
     }
 }
+
+void MainWindow::EditTask()
+{
+
+}
+
+
 
 bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
 {
@@ -175,6 +190,19 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
                 QFont font = item->font();
                 font.setStrikeOut(!font.strikeOut());
                 item->setFont(font);
+            }
+            return true;
+        }
+
+        if(keyEvent->key() == Qt::Key_E)
+        {
+
+            QListWidgetItem *item = taskList->currentItem();
+            if(item)
+            {
+                editingItem = item;
+                taskLineEdit->setText(item->text());
+                setState(AppState::CreatingTask);
             }
             return true;
         }
