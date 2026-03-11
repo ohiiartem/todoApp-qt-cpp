@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "taskmanager.h"
 
 #include <QKeyEvent>
 #include <QLabel>
@@ -141,18 +142,15 @@ void MainWindow::onTaskConfirmed()
         editingItem = nullptr;
         taskLineEdit->clear();
         setState(AppState::ListViewMode);
+        taskManager.saveTask(taskList);
     }
     else if (!taskText.isEmpty())
     {
         taskLineEdit->clear();
         taskList->addItem(taskText);
         setState(AppState::ListViewMode);
+        taskManager.saveTask(taskList);
     }
-}
-
-void MainWindow::EditTask()
-{
-
 }
 
 
@@ -176,8 +174,11 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
             if (row != -1)
             {
                 delete taskList->takeItem(row);
+                taskManager.saveTask(taskList);
                 if (taskList->count() == 0)
+                {
                     setState(AppState::Empty);
+                }
             }
             return true;
         }
@@ -190,6 +191,7 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
                 QFont font = item->font();
                 font.setStrikeOut(!font.strikeOut());
                 item->setFont(font);
+                taskManager.saveTask(taskList);
             }
             return true;
         }

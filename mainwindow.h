@@ -3,6 +3,8 @@
 #include <QMainWindow>
 #include <QKeyEvent>
 
+#include "taskmanager.h"
+
 #include <QLabel>
 #include <QLineEdit>
 #include <QListWidget>
@@ -40,9 +42,10 @@ private:
 
     QListWidgetItem *editingItem = nullptr;
 
+    TaskManager taskManager;
+
 private slots:
     void onTaskConfirmed();
-    void EditTask();
 };
 #endif // MAINWINDOW_H
 
