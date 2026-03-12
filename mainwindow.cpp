@@ -45,6 +45,10 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(centralWidget);
 
     setState(AppState::Empty);
+
+    taskManager.loadTask(taskList);
+    if (taskList->count() > 0)
+        setState(AppState::ListViewMode);
 }
 
 MainWindow::~MainWindow() {}
