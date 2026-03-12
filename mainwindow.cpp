@@ -49,6 +49,8 @@ MainWindow::MainWindow(QWidget *parent)
     taskManager.loadTask(taskList);
     if (taskList->count() > 0)
         setState(AppState::ListViewMode);
+
+
 }
 
 MainWindow::~MainWindow() {}
@@ -92,6 +94,7 @@ void MainWindow::setState(AppState newState)
     case AppState::ListViewMode:
         taskLineEdit->hide();
         hintLabel->hide();
+        subHintLabel->hide();
 
         taskList->show();
         taskList->setFocus();
