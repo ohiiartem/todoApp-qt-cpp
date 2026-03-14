@@ -26,6 +26,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     taskList->installEventFilter(this);
 
+    QPalette palette = taskList->palette();
+    palette.setColor(QPalette::HighlightedText, QColor("#000000"));
+    taskList->setPalette(palette);
+
 
     QVBoxLayout *layout = new QVBoxLayout();
     layout->addWidget(taskList);
@@ -198,6 +202,10 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
                 QFont font = item->font();
                 font.setStrikeOut(!font.strikeOut());
                 item->setFont(font);
+                // if (font.strikeOut())
+                //     item->setForeground(QColor("#66666e"));
+                // else
+                //     item->setForeground(QColor("#000000"));
                 taskManager.saveTask(taskList);
             }
             return true;

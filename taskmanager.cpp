@@ -57,6 +57,7 @@ void TaskManager::loadTask(QListWidget *taskList)
             QFont font = item->font();
             font.setStrikeOut(true);
             item->setFont(font);
+            //item->setForeground(QColor("#66666e"));
         }
 
         taskList->addItem(item);
