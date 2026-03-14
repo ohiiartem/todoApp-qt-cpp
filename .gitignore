@@ -46,3 +46,4 @@ release/
 .Spotlight-V100
 .Trashes
 .qtcreator/
+*.autosave
