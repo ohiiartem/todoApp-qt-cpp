@@ -1,12 +1,11 @@
 QMainWindow {
-    background-color: #F1FAEE;
+    background-color: #f4f4f6;
 }
 
 QListWidget{
 
-    background-color: #F1FAEE;
+    background-color: #f4f4f6;
 
-    color: #1D3557;
     font-size: 42px;
 
     margin: 0px 0px 10px 0px;
@@ -18,8 +17,8 @@ QListWidget{
 }
 
 QListWidget::item:selected {
-    background-color: #457B9D;
-    color: #1D3557;
+    background-color: #e6e6e9;
 
     border-radius: 8px;
 }
+
