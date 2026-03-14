@@ -13,9 +13,11 @@ MainWindow::MainWindow(QWidget *parent)
     setFixedSize(1400, 750);
 
     hintLabel = new QLabel();
+    hintLabel->setObjectName("hintLabel");
     hintLabel->setAlignment(Qt::AlignCenter);
 
     subHintLabel = new QLabel();
+    subHintLabel->setObjectName("subHintLabel");
     subHintLabel->setAlignment(Qt::AlignCenter);
 
     taskLineEdit = new QLineEdit();
@@ -53,6 +55,8 @@ MainWindow::MainWindow(QWidget *parent)
     taskManager.loadTask(taskList);
     if (taskList->count() > 0)
         setState(AppState::ListViewMode);
+
+
 
 
 }
