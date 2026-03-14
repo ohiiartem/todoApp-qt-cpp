@@ -22,3 +22,18 @@ QListWidget::item:selected {
     border-radius: 8px;
 }
 
+
+QLabel#hintLabel {
+    font-size: 64px;
+    font-weight: 600;
+    color: #000000;
+    letter-spacing: 2px;
+}
+
+
+QLabel#subHintLabel {
+    font-size: 18px;
+    font-weight: 400;
+    color: #66666e;
+    letter-spacing: 1px;
+}
