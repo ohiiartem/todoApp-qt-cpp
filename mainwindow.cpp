@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     taskLineEdit = new QLineEdit();
     taskLineEdit->setAlignment(Qt::AlignCenter);
+    taskLineEdit->setPlaceholderText("Enter task...");
     taskLineEdit->hide();
 
     taskList = new QListWidget();
@@ -55,9 +56,6 @@ MainWindow::MainWindow(QWidget *parent)
     taskManager.loadTask(taskList);
     if (taskList->count() > 0)
         setState(AppState::ListViewMode);
-
-
-
 
 }
 

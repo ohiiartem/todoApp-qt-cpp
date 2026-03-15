@@ -2,6 +2,11 @@ QMainWindow {
     background-color: #f4f4f6;
 }
 
+QWidget {
+    font-family: "Roboto";
+    font-size: 14px;
+}
+
 QListWidget{
 
     background-color: #f4f4f6;
@@ -20,6 +25,16 @@ QListWidget::item:selected {
     background-color: #e6e6e9;
 
     border-radius: 8px;
+}
+
+QLineEdit {
+    min-height: 48px;
+
+    font-size: 42px;
+}
+
+QLineEdit::placeholder {
+    color: #e6e6e9;
 }
 
 
