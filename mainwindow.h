@@ -44,6 +44,8 @@ private:
 
     TaskManager taskManager;
 
+    bool hidingCompleted = false;
+
 private slots:
     void onTaskConfirmed();
 };

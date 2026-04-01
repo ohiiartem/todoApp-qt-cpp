@@ -143,6 +143,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 }
 
+// ************************************
 
 void MainWindow::onTaskConfirmed()
 {
@@ -166,7 +167,7 @@ void MainWindow::onTaskConfirmed()
     }
 }
 
-
+// **************************************
 
 bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
 {
@@ -224,6 +225,17 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
                 setState(AppState::CreatingTask);
             }
             return true;
+        }
+
+        if(keyEvent->key() == Qt::Key_H)
+        {
+                hidingCompleted = !hidingCompleted;
+                for(int i = 0; i < taskList->count();i++){
+                    QListWidgetItem *item = taskList->item(i);
+                    if (item->font().strikeOut())
+                        item->setHidden(hidingCompleted);
+                }
+                return true;
         }
     }
     return QMainWindow::eventFilter(obj, event);
