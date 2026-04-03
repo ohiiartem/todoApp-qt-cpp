@@ -203,13 +203,13 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
             if(item)
             {
                 QFont font = item->font();
-                font.setStrikeOut(!font.strikeOut());
+                bool strike = !font.strikeOut();
+
+                font.setStrikeOut(strike);
                 item->setFont(font);
-                // if (font.strikeOut())
-                //     item->setForeground(QColor("#66666e"));
-                // else
-                //     item->setForeground(QColor("#000000"));
-                taskManager.saveTask(taskList);
+
+                // item->setForeground(strike ? QColor("#66666e")
+                //                            : QColor("#000000"));
             }
             return true;
         }
@@ -237,6 +237,32 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
                 }
                 return true;
         }
+<<<<<<< HEAD
+=======
+
+        if(keyEvent->key() == Qt::Key_Up)
+        {
+            int row = taskList->currentRow();
+            if (row == -1) return true;
+            if(row == 0)
+                taskList->setCurrentRow(taskList->count() - 1);
+            else
+                taskList->setCurrentRow(row - 1);
+            return true;
+
+        }
+
+        if(keyEvent->key() == Qt::Key_Down)
+        {
+            int row = taskList->currentRow();
+            if(row == - 1) return true;
+            if(row == taskList->count() - 1)
+                taskList->setCurrentRow(0);
+            else
+                taskList->setCurrentRow(row + 1);
+            return true;
+        }
+>>>>>>> dev
     }
     return QMainWindow::eventFilter(obj, event);
 }
