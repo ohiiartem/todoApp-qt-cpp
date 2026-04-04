@@ -238,6 +238,31 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
                 return true;
         }
 
+        if (keyEvent->modifiers() & Qt::ControlModifier)
+        {
+            int row = taskList->currentRow();
+            if (row == - 1) return true;
+
+            if (keyEvent->key() == Qt::Key_Up && row > 0)
+            {
+                QListWidgetItem *item = taskList->takeItem(row);
+                taskList->insertItem(row - 1, item);
+                taskList->setCurrentRow(row - 1);
+                taskManager.saveTask(taskList);
+                return true;
+
+            }
+
+            if (keyEvent->key() == Qt::Key_Down && row < taskList->count() - 1)
+            {
+                QListWidgetItem *item = taskList->takeItem(row);
+                taskList->insertItem(row + 1, item);
+                taskList->setCurrentRow(row + 1);
+                taskManager.saveTask(taskList);
+                return true;
+            }
+        }
+
         if(keyEvent->key() == Qt::Key_Up)
         {
             int row = taskList->currentRow();
