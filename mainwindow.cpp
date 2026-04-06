@@ -237,8 +237,7 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
                 }
                 return true;
         }
-<<<<<<< HEAD
-=======
+
 
         if (keyEvent->modifiers() & Qt::ControlModifier)
         {
@@ -287,7 +286,7 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
                 taskList->setCurrentRow(row + 1);
             return true;
         }
->>>>>>> dev
+
     }
     return QMainWindow::eventFilter(obj, event);
 }

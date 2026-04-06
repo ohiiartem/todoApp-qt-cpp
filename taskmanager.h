@@ -11,6 +11,9 @@ public:
 
     void saveTask(QListWidget*);
     void loadTask(QListWidget*);
+
+private:
+    QString filePath() const;
 };
 
 #endif // TASKMANAGER_H

@@ -3,9 +3,18 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QFile>
+#include <QStandardPaths>
+#include <Qdir>
 
 
 TaskManager::TaskManager() {}
+
+QString TaskManager::filePath() const {
+    QString dir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    QDir().mkpath(dir);
+    return dir + "/tasks.json";
+}
+
 
 void TaskManager::saveTask(QListWidget *taskList)
 {
@@ -23,7 +32,7 @@ void TaskManager::saveTask(QListWidget *taskList)
 
     QJsonDocument doc(root);
 
-    QFile file("tasks.json");
+    QFile file(filePath());
 
     if (file.open(QFile::WriteOnly))
     {
@@ -35,7 +44,7 @@ void TaskManager::saveTask(QListWidget *taskList)
 
 void TaskManager::loadTask(QListWidget *taskList)
 {
-    QFile file("tasks.json");
+    QFile file(filePath());
     if(!file.open(QFile::ReadOnly))
         return;
 
