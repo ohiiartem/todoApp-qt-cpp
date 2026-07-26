@@ -17,6 +17,7 @@ qt_add_executable(ToDoApp
     mainwindow.h
     taskmanager.h
     resources.qrc
+    AppStateMachine.h AppStateMachine.cpp
 )
 
 target_link_libraries(ToDoApp PRIVATE Qt6::Widgets Qt6::Core)
