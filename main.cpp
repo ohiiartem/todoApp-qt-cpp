@@ -10,13 +10,11 @@ int main(int argc, char *argv[])
 
     QFontDatabase::addApplicationFont("::/styles/fonts/Roboto-Regular.ttf");
 
-    // QFont font("Geist");
-    // app.setFont(font);
     int id = QFontDatabase::addApplicationFont(":/styles/fonts/Roboto-Regular.ttf");
     if (id == -1) {
-        qDebug() << "Шрифт не загрузился!";
+        qDebug() << "The font hasn’t loaded!";
     } else {
-        qDebug() << "Загружен:" << QFontDatabase::applicationFontFamilies(id);
+        qDebug() << "Uploaded:" << QFontDatabase::applicationFontFamilies(id);
     }
 
     QFile styleFile(":/styles/style.qss");
@@ -27,7 +25,7 @@ int main(int argc, char *argv[])
     }
 
     app.setApplicationName("To Do");
-    app.setApplicationVersion("1.0");
+    app.setApplicationVersion("1.5");
 
     MainWindow w;
     w.show();
