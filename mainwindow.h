@@ -4,6 +4,7 @@
 #include <QKeyEvent>
 
 #include "taskmanager.h"
+#include "AppStateMachine.h"
 
 #include <QLabel>
 #include <QLineEdit>
@@ -22,32 +23,25 @@ protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
 
 private:
-    enum class AppState
-    {
-        Empty,
-        CreatingTask,
-        ListViewMode
-    };
 
 
     QLabel *hintLabel;
     QLabel *subHintLabel;
 
     QLineEdit *taskLineEdit;
-
     QListWidget *taskList;
-
-    AppState currentState;
-    void setState(AppState newState);
-
     QListWidgetItem *editingItem = nullptr;
 
     TaskManager taskManager;
+    AppStateMachine stateMachine;
 
     bool hidingCompleted = false;
 
+    using AppState = AppStateMachine::AppState;
+
 private slots:
     void onTaskConfirmed();
+    void onStateChanged(AppStateMachine::AppState newState);
 };
 #endif // MAINWINDOW_H
 
