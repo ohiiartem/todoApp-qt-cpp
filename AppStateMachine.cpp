@@ -25,11 +25,24 @@ void AppStateMachine::confirmTask()
         setState(AppState::ListViewMode);
 }
 
-void AppStateMachine::cancelEditing()
+void AppStateMachine::cancelEditing(bool hasAnyTask)
 {
-
+    if (currentState == AppState::CreatingTask){
+        if (hasAnyTask) setState(AppState::ListViewMode);
+        else setState(AppState::Empty);
+    }
 }
 
+void AppStateMachine::initialize(bool hasAnyTask) {
+    if (hasAnyTask) setState(AppState::ListViewMode);
+        else setState(AppState::Empty);
+}
+
+void AppStateMachine::taskDeleted(bool hasAnyTask) {
+    if (!hasAnyTask) setState(AppState::Empty);
+}
+
+AppStateMachine::AppState AppStateMachine::state() const {return currentState;}
 
 
 

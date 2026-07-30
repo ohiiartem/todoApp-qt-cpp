@@ -17,8 +17,11 @@ public:
     };
 
     void requestCreateTask();
-    void cancelEditing();
     void confirmTask();
+    void cancelEditing(bool hasAnyTask);
+    void initialize(bool hasAnyTask);
+    void taskDeleted(bool hasAnyTask);
+    AppState state() const;
 
 
 

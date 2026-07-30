@@ -7,8 +7,7 @@
 #include <QVBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent),
-    currentState(AppState::Empty)
+    : QMainWindow(parent)
 {
     setFixedSize(1400, 750);
 
@@ -43,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
     layout->addWidget(subHintLabel);
     layout->addStretch();
 
+    connect(&stateMachine, &AppStateMachine::stateChanged, this, &MainWindow::onStateChanged);
     connect(taskLineEdit, &QLineEdit::returnPressed, this, &MainWindow::onTaskConfirmed);
 
     layout->setAlignment(Qt::AlignCenter);
@@ -51,22 +51,19 @@ MainWindow::MainWindow(QWidget *parent)
     centralWidget->setLayout(layout);
     setCentralWidget(centralWidget);
 
-    setState(AppState::Empty);
 
     taskManager.loadTask(taskList);
-    if (taskList->count() > 0)
-        setState(AppState::ListViewMode);
+        stateMachine.initialize(taskList->count() > 0);
 
 }
 
 MainWindow::~MainWindow() {}
 
 
-void MainWindow::setState(AppState newState)
+void MainWindow::onStateChanged(AppState newState)
 {
-    currentState = newState;
 
-    switch (currentState)
+    switch (newState)
     {
     case AppState::Empty:
         hintLabel->setText("Press N");
@@ -113,13 +110,13 @@ void MainWindow::setState(AppState newState)
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
 
-    switch (currentState)
+    switch (stateMachine.state())
     {
 
     case AppState::Empty:
         if (event->key() == Qt::Key_N)
         {
-            setState(AppState::CreatingTask);
+            stateMachine.requestCreateTask();
         }
         break;
 
@@ -127,17 +124,14 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         if(event->key() == Qt::Key_Escape)
         {
             editingItem = nullptr;
-            if(taskList->count() == 0)
-                setState(AppState::Empty);
-            else
-                setState(AppState::ListViewMode);
+            stateMachine.cancelEditing(taskList->count() > 0);
         }
         break;
 
     case AppState::ListViewMode:
         if(event->key() == Qt::Key_N)
         {
-            setState(AppState::CreatingTask);
+            stateMachine.requestCreateTask();
         }
     }
 
@@ -155,14 +149,14 @@ void MainWindow::onTaskConfirmed()
             editingItem->setText(taskText);
         editingItem = nullptr;
         taskLineEdit->clear();
-        setState(AppState::ListViewMode);
+        stateMachine.confirmTask();
         taskManager.saveTask(taskList);
     }
     else if (!taskText.isEmpty())
     {
         taskLineEdit->clear();
         taskList->addItem(taskText);
-        setState(AppState::ListViewMode);
+        stateMachine.confirmTask();
         taskManager.saveTask(taskList);
     }
 }
@@ -178,7 +172,7 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
 
         if (keyEvent->key() == Qt::Key_N)
         {
-            setState(AppState::CreatingTask);
+            stateMachine.requestCreateTask();
             return true;
         }
 
@@ -189,10 +183,7 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
             {
                 delete taskList->takeItem(row);
                 taskManager.saveTask(taskList);
-                if (taskList->count() == 0)
-                {
-                    setState(AppState::Empty);
-                }
+                stateMachine.taskDeleted(taskList->count() > 0);
             }
             return true;
         }
@@ -222,7 +213,7 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
             {
                 editingItem = item;
                 taskLineEdit->setText(item->text());
-                setState(AppState::CreatingTask);
+                stateMachine.requestCreateTask();
             }
             return true;
         }
