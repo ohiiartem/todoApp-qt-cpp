@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
 
-    QFontDatabase::addApplicationFont("::/styles/fonts/Roboto-Regular.ttf");
+    QFontDatabase::addApplicationFont(":/styles/fonts/Roboto-Regular.ttf");
 
     // QFont font("Geist");
     // app.setFont(font);
