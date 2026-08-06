@@ -113,12 +113,6 @@ void TaskManager::load()
 
 
 
-
-
-
-
-
-
 void TaskManager::addTask(const QString &text)
 {
     Task newTask(text);

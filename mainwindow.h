@@ -39,6 +39,8 @@ private:
 
     using AppState = AppStateMachine::AppState;
 
+    void refreshTaskList();
+
 private slots:
     void onTaskConfirmed();
     void onStateChanged(AppStateMachine::AppState newState);

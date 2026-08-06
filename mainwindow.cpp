@@ -52,8 +52,9 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(centralWidget);
 
 
-    taskManager.loadTask(taskList);
-        stateMachine.initialize(taskList->count() > 0);
+    taskManager.load();
+    refreshTaskList();
+    stateMachine.initialize(taskManager.taskCount() > 0);
 
 }
 
@@ -280,6 +281,22 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
     return QMainWindow::eventFilter(obj, event);
 }
 
+void MainWindow::refreshTaskList()
+{
+    taskList->clear();
+    for (int i = 0;i < taskManager.taskCount();i++)
+    {
+        const Task &task = taskManager.taskAt(i);
+        QListWidgetItem *item = new QListWidgetItem(task.text());
+        if (task.isCompleted())
+        {
+            QFont font = item->font();
+            font.setStrikeOut(true);
+            item->setFont(font);
+        }
+        taskList->addItem(item);
+    }
+}
 
 
 
