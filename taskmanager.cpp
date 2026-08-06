@@ -65,10 +65,46 @@ void TaskManager::loadTask(QListWidget *taskList)
 }
 
 
+void TaskManager::addTask(const QString &text)
+{
+    Task newTask(text);
+    tasks.append(newTask);
+}
 
+void TaskManager::removeTask(int index)
+{
+    if (index < 0 || index >= tasks.size()) return;
+    tasks.removeAt(index);
+}
 
+void TaskManager::toggleCompleted(int index)
+{
+    if (index < 0 || index >= tasks.size()) return;
+    tasks[index].toggleCompleted();
+}
 
+void TaskManager::setTaskText(int index, const QString &newText)
+{
+    if (index < 0 || index >= tasks.size()) return;
+    tasks[index].setText(newText);
+}
 
+void TaskManager::moveTask(int from, int to)
+{
+    if (from < 0 || from >= tasks.size()) return;
+    if (to < 0 || to >= tasks.size()) return;
+    tasks.move(from, to);
+}
+
+int TaskManager::taskCount() const
+{
+    return tasks.size();
+}
+
+const Task& TaskManager::taskAt(int index) const
+{
+    return tasks.at(index); // hole
+}
 
 
 
