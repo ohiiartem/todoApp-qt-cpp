@@ -64,6 +64,60 @@ void TaskManager::loadTask(QListWidget *taskList)
     }
 }
 
+void TaskManager::save() const
+{
+    QJsonArray tasksArray;
+    for (const Task &task : tasks)
+    {
+        QJsonObject taskObj;
+        taskObj["text"] = task.text();
+        taskObj["completed"] = task.isCompleted();
+        tasksArray.append(taskObj);
+    }
+    QJsonObject root;
+    root["tasks"] = tasksArray;
+
+    QJsonDocument doc(root);
+
+    QFile file("tasks.json");
+
+    if (file.open(QFile::WriteOnly))
+    {
+        file.write(doc.toJson());
+        file.close();
+    }
+}
+
+
+void TaskManager::load()
+{
+    QFile file("tasks.json");
+    if(!file.open(QFile::ReadOnly))
+        return;
+
+    QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
+    file.close();
+
+    QJsonArray tasksArray = doc.object()["tasks"].toArray();
+
+    tasks.clear();
+    for (const QJsonValue &value : tasksArray)
+    {
+        QJsonObject taskObj = value.toObject();
+        QString text = taskObj["text"].toString();
+        bool completed = taskObj["completed"].toBool();
+
+        tasks.append(Task(text, completed));
+    }
+}
+
+
+
+
+
+
+
+
 
 void TaskManager::addTask(const QString &text)
 {

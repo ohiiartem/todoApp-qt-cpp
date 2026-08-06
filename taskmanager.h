@@ -13,6 +13,9 @@ public:
     void saveTask(QListWidget*);
     void loadTask(QListWidget*);
 
+    void save() const;
+    void load();
+
     void addTask(const QString &text);
     void removeTask(int index);
     void toggleCompleted(int index);
