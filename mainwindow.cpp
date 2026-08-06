@@ -156,9 +156,10 @@ void MainWindow::onTaskConfirmed()
     else if (!taskText.isEmpty())
     {
         taskLineEdit->clear();
-        taskList->addItem(taskText);
+        taskManager.addTask(taskText);
+        taskManager.save();
+        refreshTaskList();
         stateMachine.confirmTask();
-        taskManager.saveTask(taskList);
     }
 }
 
@@ -180,29 +181,19 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
         if(keyEvent->key() == Qt::Key_D)
         {
             int row = taskList->currentRow();
-            if (row != -1)
-            {
-                delete taskList->takeItem(row);
-                taskManager.saveTask(taskList);
-                stateMachine.taskDeleted(taskList->count() > 0);
-            }
+            taskManager.removeTask(row);
+            taskManager.save();
+            refreshTaskList();
+            stateMachine.taskDeleted(taskManager.taskCount() > 0);
             return true;
         }
 
         if(keyEvent->key() == Qt::Key_Space)
         {
-            QListWidgetItem *item = taskList->currentItem();
-            if(item)
-            {
-                QFont font = item->font();
-                bool strike = !font.strikeOut();
-
-                font.setStrikeOut(strike);
-                item->setFont(font);
-
-                // item->setForeground(strike ? QColor("#66666e")
-                //                            : QColor("#000000"));
-            }
+            int row = taskList->currentRow();
+            taskManager.toggleCompleted(row);
+            taskManager.save();
+            refreshTaskList();
             return true;
         }
 
@@ -283,6 +274,8 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
 
 void MainWindow::refreshTaskList()
 {
+
+    int row = taskList->currentRow();
     taskList->clear();
     for (int i = 0;i < taskManager.taskCount();i++)
     {
@@ -296,6 +289,12 @@ void MainWindow::refreshTaskList()
         }
         taskList->addItem(item);
     }
+
+
+    if (taskManager.taskCount() <= row)
+        taskList->setCurrentRow(taskManager.taskCount() - 1);
+    else
+        taskList->setCurrentRow(row);
 }
 
 
