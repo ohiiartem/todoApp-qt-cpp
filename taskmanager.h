@@ -1,7 +1,6 @@
 #ifndef TASKMANAGER_H
 #define TASKMANAGER_H
 
-#include <QListWidget>
 #include <QVector>
 #include "task.h"
 
@@ -9,9 +8,6 @@ class TaskManager
 {
 public:
     TaskManager();
-
-    void saveTask(QListWidget*);
-    void loadTask(QListWidget*);
 
     void save() const;
     void load();
