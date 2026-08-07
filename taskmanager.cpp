@@ -88,7 +88,6 @@ void TaskManager::save() const
     }
 }
 
-
 void TaskManager::load()
 {
     QFile file("tasks.json");
@@ -110,8 +109,6 @@ void TaskManager::load()
         tasks.append(Task(text, completed));
     }
 }
-
-
 
 void TaskManager::addTask(const QString &text)
 {

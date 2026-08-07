@@ -30,7 +30,7 @@ private:
 
     QLineEdit *taskLineEdit;
     QListWidget *taskList;
-    QListWidgetItem *editingItem = nullptr;
+    int editingIndex = -1;
 
     TaskManager taskManager;
     AppStateMachine stateMachine;

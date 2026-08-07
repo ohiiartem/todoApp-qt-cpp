@@ -124,7 +124,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     case AppState::CreatingTask:
         if(event->key() == Qt::Key_Escape)
         {
-            editingItem = nullptr;
+            editingIndex = -1;
             stateMachine.cancelEditing(taskList->count() > 0);
         }
         break;
@@ -144,22 +144,23 @@ void MainWindow::onTaskConfirmed()
 {
     QString taskText = taskLineEdit->text().trimmed();
 
-    if (editingItem != nullptr)
+    if (editingIndex != -1)
     {
         if (!taskText.isEmpty())
-            editingItem->setText(taskText);
-        editingItem = nullptr;
+            taskManager.setTaskText(editingIndex, taskText);
+        editingIndex = -1;
         taskLineEdit->clear();
+        refreshTaskList();
         stateMachine.confirmTask();
-        taskManager.saveTask(taskList);
+        taskManager.save();
     }
     else if (!taskText.isEmpty())
     {
         taskLineEdit->clear();
         taskManager.addTask(taskText);
-        taskManager.save();
         refreshTaskList();
         stateMachine.confirmTask();
+        taskManager.save();
     }
 }
 
@@ -200,11 +201,11 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
         if(keyEvent->key() == Qt::Key_E)
         {
 
-            QListWidgetItem *item = taskList->currentItem();
-            if(item)
+            int row = taskList->currentRow();
+            if(row != -1)
             {
-                editingItem = item;
-                taskLineEdit->setText(item->text());
+                editingIndex = row;
+                taskLineEdit->setText(taskManager.taskAt(row).text());
                 stateMachine.requestCreateTask();
             }
             return true;
@@ -212,13 +213,9 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
 
         if(keyEvent->key() == Qt::Key_H)
         {
-                hidingCompleted = !hidingCompleted;
-                for(int i = 0; i < taskList->count();i++){
-                    QListWidgetItem *item = taskList->item(i);
-                    if (item->font().strikeOut())
-                        item->setHidden(hidingCompleted);
-                }
-                return true;
+            hidingCompleted = !hidingCompleted;
+            refreshTaskList();
+            return true;
         }
 
         if (keyEvent->modifiers() & Qt::ControlModifier)
@@ -228,20 +225,20 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
 
             if (keyEvent->key() == Qt::Key_Up && row > 0)
             {
-                QListWidgetItem *item = taskList->takeItem(row);
-                taskList->insertItem(row - 1, item);
+                taskManager.moveTask(row, row - 1);
+                taskManager.save();
+                refreshTaskList();
                 taskList->setCurrentRow(row - 1);
-                taskManager.saveTask(taskList);
                 return true;
 
             }
 
             if (keyEvent->key() == Qt::Key_Down && row < taskList->count() - 1)
             {
-                QListWidgetItem *item = taskList->takeItem(row);
-                taskList->insertItem(row + 1, item);
+                taskManager.moveTask(row, row + 1);
+                taskManager.save();
+                refreshTaskList();
                 taskList->setCurrentRow(row + 1);
-                taskManager.saveTask(taskList);
                 return true;
             }
         }
@@ -288,6 +285,7 @@ void MainWindow::refreshTaskList()
             item->setFont(font);
         }
         taskList->addItem(item);
+        item->setHidden(hidingCompleted && task.isCompleted());
     }
 
 
