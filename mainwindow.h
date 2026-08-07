@@ -30,7 +30,7 @@ private:
 
     QLineEdit *taskLineEdit;
     QListWidget *taskList;
-    QListWidgetItem *editingItem = nullptr;
+    int editingIndex = -1;
 
     TaskManager taskManager;
     AppStateMachine stateMachine;
@@ -38,6 +38,8 @@ private:
     bool hidingCompleted = false;
 
     using AppState = AppStateMachine::AppState;
+
+    void refreshTaskList();
 
 private slots:
     void onTaskConfirmed();

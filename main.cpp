@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
 
-    QFontDatabase::addApplicationFont("::/styles/fonts/Roboto-Regular.ttf");
+    QFontDatabase::addApplicationFont(":/styles/fonts/Roboto-Regular.ttf");
 
     int id = QFontDatabase::addApplicationFont(":/styles/fonts/Roboto-Regular.ttf");
     if (id == -1) {
