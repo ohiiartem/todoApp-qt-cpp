@@ -23,6 +23,7 @@ public:
 
 private:
     QVector<Task> tasks;
+    QString filePath() const;
 };
 
 #endif // TASKMANAGER_H

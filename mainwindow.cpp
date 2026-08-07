@@ -218,6 +218,7 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
             return true;
         }
 
+
         if (keyEvent->modifiers() & Qt::ControlModifier)
         {
             int row = taskList->currentRow();
@@ -265,6 +266,7 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
                 taskList->setCurrentRow(row + 1);
             return true;
         }
+
     }
     return QMainWindow::eventFilter(obj, event);
 }
