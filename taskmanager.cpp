@@ -4,7 +4,7 @@
 #include <QJsonArray>
 #include <QFile>
 #include <QStandardPaths>
-#include <Qdir>
+#include <QDir>
 
 
 TaskManager::TaskManager() {}
