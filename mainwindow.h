@@ -2,10 +2,8 @@
 #define MAINWINDOW_H
 #include <QMainWindow>
 #include <QKeyEvent>
-
 #include "taskmanager.h"
 #include "AppStateMachine.h"
-
 #include <QLabel>
 #include <QLineEdit>
 #include <QListWidget>
@@ -46,10 +44,3 @@ private slots:
     void onStateChanged(AppStateMachine::AppState newState);
 };
 #endif // MAINWINDOW_H
-
-
-
-
-
-
-

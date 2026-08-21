@@ -60,7 +60,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow() {}
 
-
 void MainWindow::onStateChanged(AppState newState)
 {
 
@@ -107,7 +106,6 @@ void MainWindow::onStateChanged(AppState newState)
     }
 }
 
-
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
 
@@ -138,8 +136,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 }
 
-// ************************************
-
 void MainWindow::onTaskConfirmed()
 {
     QString taskText = taskLineEdit->text().trimmed();
@@ -163,8 +159,6 @@ void MainWindow::onTaskConfirmed()
         taskManager.save();
     }
 }
-
-// **************************************
 
 bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
 {
@@ -296,12 +290,3 @@ void MainWindow::refreshTaskList()
     else
         taskList->setCurrentRow(row);
 }
-
-
-
-
-
-
-
-
-
