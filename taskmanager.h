@@ -4,6 +4,7 @@
 #include <QVector>
 #include "task.h"
 
+// Owns the task list and its JSON persistence. No GUI dependency, so it is testable without the interface.
 class TaskManager
 {
 public:
