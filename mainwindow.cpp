@@ -60,7 +60,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow() {}
 
-
 void MainWindow::onStateChanged(AppState newState)
 {
 
@@ -107,7 +106,6 @@ void MainWindow::onStateChanged(AppState newState)
     }
 }
 
-
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
 
@@ -138,8 +136,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 }
 
-// ************************************
-
 void MainWindow::onTaskConfirmed()
 {
     QString taskText = taskLineEdit->text().trimmed();
@@ -163,8 +159,6 @@ void MainWindow::onTaskConfirmed()
         taskManager.save();
     }
 }
-
-// **************************************
 
 bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
 {
@@ -273,7 +267,7 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
 
 void MainWindow::refreshTaskList()
 {
-
+    // Remembered before clear(), which resets the selection.
     int row = taskList->currentRow();
     taskList->clear();
     for (int i = 0;i < taskManager.taskCount();i++)
@@ -290,18 +284,9 @@ void MainWindow::refreshTaskList()
         item->setHidden(hidingCompleted && task.isCompleted());
     }
 
-
+    // The row may now be past the end (last task deleted), so clamp it.
     if (taskManager.taskCount() <= row)
         taskList->setCurrentRow(taskManager.taskCount() - 1);
     else
         taskList->setCurrentRow(row);
 }
-
-
-
-
-
-
-
-
-

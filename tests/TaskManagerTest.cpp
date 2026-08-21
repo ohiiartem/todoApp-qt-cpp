@@ -71,16 +71,3 @@ TEST(TaskManagerTest, SetTaskTextChangesText)
     manager.setTaskText(0, " ");
     EXPECT_EQ("new text", manager.taskAt(0).text());
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

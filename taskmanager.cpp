@@ -6,16 +6,13 @@
 #include <QStandardPaths>
 #include <QDir>
 
-
 TaskManager::TaskManager() {}
-
 
 QString TaskManager::filePath() const {
     QString dir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
     QDir().mkpath(dir);
     return dir + "/tasks.json";
 }
-
 
 void TaskManager::save() const
 {
@@ -101,9 +98,5 @@ int TaskManager::taskCount() const
 
 const Task& TaskManager::taskAt(int index) const
 {
-    return tasks.at(index); // hole
+    return tasks.at(index); //TODO: no bounds check — caller must pass a valid index
 }
-
-
-
-

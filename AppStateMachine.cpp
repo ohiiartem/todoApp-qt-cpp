@@ -4,7 +4,6 @@ AppStateMachine::AppStateMachine(QObject *parent)
     : QObject(parent),
     currentState(AppState::Empty)
 {
-
 }
 
 void AppStateMachine::setState(AppState newState) {
@@ -43,9 +42,3 @@ void AppStateMachine::taskDeleted(bool hasAnyTask) {
 }
 
 AppStateMachine::AppState AppStateMachine::state() const {return currentState;}
-
-
-
-
-
-
