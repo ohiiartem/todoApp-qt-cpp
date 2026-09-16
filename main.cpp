@@ -3,6 +3,8 @@
 #include <QApplication>
 #include <QFontDatabase>
 #include <QDebug>
+#include <QFileSystemWatcher>
+#include <QTimer>
 
 static QString styleSheetPath()
 {
@@ -37,6 +39,26 @@ int main(int argc, char *argv[])
 
 
     applyStyleSheet();
+
+#ifdef QT_DEBUG
+
+    QFileSystemWatcher styleWatcher;
+    const QString stylePath = styleSheetPath();
+    if (!styleWatcher.addPath(stylePath))
+    {
+        qWarning() << "Failed to watch style file:" << stylePath;
+    }
+
+    QObject::connect(&styleWatcher, &QFileSystemWatcher::fileChanged,
+                     [&styleWatcher, stylePath] () {
+        applyStyleSheet();
+
+        if (!styleWatcher.files().contains(stylePath)) {
+            styleWatcher.addPath(stylePath);
+        }
+    } );
+
+#endif
 
     app.setApplicationName("To Do");
     app.setApplicationVersion("1.5");
