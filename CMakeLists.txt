@@ -29,6 +29,8 @@ qt_add_executable(ToDoApp
 )
 target_link_libraries(ToDoApp PRIVATE todoapp_core Qt6::Widgets)
 
+target_compile_definitions(ToDoApp PRIVATE QSS_SOURCE_PATH="${CMAKE_CURRENT_SOURCE_DIR}/style.qss")
+
 #----Tests
 
 option(TODOAPP_BUILD_TESTS "Build unit tests" ON)

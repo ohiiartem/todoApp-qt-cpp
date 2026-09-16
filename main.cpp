@@ -2,6 +2,30 @@
 #include <QFile>
 #include <QApplication>
 #include <QFontDatabase>
+#include <QDebug>
+
+static QString styleSheetPath()
+{
+    #if defined(QT_DEBUG) && defined(QSS_SOURCE_PATH)
+        return QStringLiteral(QSS_SOURCE_PATH);
+    #else
+        return QStringLiteral(":/styles/style.qss");
+    #endif
+}
+
+static void applyStyleSheet()
+{
+    const QString path = styleSheetPath();
+
+    QFile styleFile(path);
+        if (styleFile.open(QFile::ReadOnly)) {
+            QString styleSheet = QString::fromUtf8(styleFile.readAll());
+            qApp->setStyleSheet(styleSheet);
+        } else
+        {
+            qWarning() << "Failed to open style file:" << path;
+        }
+}
 
 int main(int argc, char *argv[])
 {
@@ -12,12 +36,7 @@ int main(int argc, char *argv[])
     QFontDatabase::addApplicationFont(":/styles/fonts/Roboto-Bold.ttf");
 
 
-    QFile styleFile(":/styles/style.qss");
-    if (styleFile.open(QFile::ReadOnly)) {
-        QString styleSheet = QLatin1String(styleFile.readAll());
-        app.setStyleSheet(styleSheet);
-        styleFile.close();
-    }
+    applyStyleSheet();
 
     app.setApplicationName("To Do");
     app.setApplicationVersion("1.5");
