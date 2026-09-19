@@ -1,10 +1,10 @@
 #include "mainwindow.h"
+#include "theme.h"
 #include <QFile>
 #include <QApplication>
 #include <QFontDatabase>
 #include <QDebug>
 #include <QFileSystemWatcher>
-#include <QTimer>
 
 static QString styleSheetPath()
 {
@@ -38,6 +38,7 @@ int main(int argc, char *argv[])
     QFontDatabase::addApplicationFont(":/styles/fonts/Roboto-Bold.ttf");
 
 
+    app.setPalette(makePalette(darkTheme()));
     applyStyleSheet();
 
 #ifdef QT_DEBUG

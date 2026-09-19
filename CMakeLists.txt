@@ -26,6 +26,7 @@ qt_add_executable(ToDoApp
     main.cpp
     mainwindow.h mainwindow.cpp
     resources.qrc
+    theme.h theme.cpp
 )
 target_link_libraries(ToDoApp PRIVATE todoapp_core Qt6::Widgets)
 
