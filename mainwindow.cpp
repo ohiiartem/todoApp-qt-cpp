@@ -9,7 +9,8 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    setFixedSize(1400, 750);
+    setMinimumSize(560, 420);
+    resize(900, 650);
 
     hintLabel = new QLabel();
     hintLabel->setObjectName("hintLabel");

@@ -1,5 +1,5 @@
 QMainWindow {
-    background-color: #f4f4f6;
+    background-color: palette(window);
 }
 
 QWidget {
@@ -9,7 +9,7 @@ QWidget {
 
 QListWidget{
 
-    background-color: #f4f4f6;
+    background-color: palette(window);
 
     font-size: 42px;
 
@@ -17,7 +17,7 @@ QListWidget{
 
     border: none;
 
-    min-height: 740px;
+    min-height: 420px;
 
 }
 
@@ -41,7 +41,7 @@ QLineEdit::placeholder {
 QLabel#hintLabel {
     font-size: 64px;
     font-weight: 600;
-    color: #000000;
+    color: palette(text);
     letter-spacing: 2px;
 }
 
@@ -49,6 +49,6 @@ QLabel#hintLabel {
 QLabel#subHintLabel {
     font-size: 18px;
     font-weight: 400;
-    color: #66666e;
+    color: palette(placeholder-text);
     letter-spacing: 1px;
 }
