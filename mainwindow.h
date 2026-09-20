@@ -25,6 +25,7 @@ private:
 
     QLabel *hintLabel;
     QLabel *subHintLabel;
+    QWidget *hintContainer;
 
     QLineEdit *taskLineEdit;
     QListWidget *taskList;

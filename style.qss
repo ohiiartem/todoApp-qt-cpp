@@ -17,7 +17,6 @@ QListWidget{
 
     border: none;
 
-    min-height: 420px;
 
 }
 

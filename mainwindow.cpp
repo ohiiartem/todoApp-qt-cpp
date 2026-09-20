@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
     subHintLabel->setObjectName("subHintLabel");
     subHintLabel->setAlignment(Qt::AlignCenter);
 
+    hintContainer = new QWidget;
+
     taskLineEdit = new QLineEdit();
     taskLineEdit->setAlignment(Qt::AlignCenter);
     taskLineEdit->setPlaceholderText("Enter task...");
@@ -33,20 +35,21 @@ MainWindow::MainWindow(QWidget *parent)
     palette.setColor(QPalette::HighlightedText, QColor("#000000"));
     taskList->setPalette(palette);
 
+    QVBoxLayout *hintLayout = new QVBoxLayout();
+    hintLayout->addStretch();
+    hintLayout->addWidget(hintLabel);
+    hintLayout->addSpacing(10);
+    hintLayout->addWidget(subHintLabel);
+    hintLayout->addStretch();
+    hintContainer->setLayout(hintLayout);
 
     QVBoxLayout *layout = new QVBoxLayout();
-    layout->addWidget(taskList);
+    layout->addWidget(taskList, 1);
+    layout->addWidget(hintContainer,1);
     layout->addWidget(taskLineEdit);
-    layout->addStretch();
-    layout->addWidget(hintLabel);
-    layout->addSpacing(10);
-    layout->addWidget(subHintLabel);
-    layout->addStretch();
 
     connect(&stateMachine, &AppStateMachine::stateChanged, this, &MainWindow::onStateChanged);
     connect(taskLineEdit, &QLineEdit::returnPressed, this, &MainWindow::onTaskConfirmed);
-
-    layout->setAlignment(Qt::AlignCenter);
 
     QWidget *centralWidget = new QWidget(this);
     centralWidget->setLayout(layout);
@@ -73,16 +76,14 @@ void MainWindow::onStateChanged(AppState newState)
         taskLineEdit->hide();
         taskList->hide();
 
-        hintLabel->show();
-        subHintLabel->show();
+        hintContainer->show();
 
         this->setFocus();
 
         break;
 
     case AppState::CreatingTask:
-        hintLabel->hide();
-        subHintLabel->hide();
+        hintContainer->hide();
 
         taskLineEdit->show();
         taskLineEdit->setFocus();
@@ -97,8 +98,7 @@ void MainWindow::onStateChanged(AppState newState)
 
     case AppState::ListViewMode:
         taskLineEdit->hide();
-        hintLabel->hide();
-        subHintLabel->hide();
+        hintContainer->hide();
 
         taskList->show();
         taskList->setFocus();
