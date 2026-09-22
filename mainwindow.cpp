@@ -28,12 +28,12 @@ MainWindow::MainWindow(QWidget *parent)
     taskLineEdit->hide();
 
     taskList = new QListWidget();
+    taskList->setSpacing(3);
+    taskList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    taskList->setFrameShape(QFrame::NoFrame);
+
 
     taskList->installEventFilter(this);
-
-    QPalette palette = taskList->palette();
-    palette.setColor(QPalette::HighlightedText, QColor("#000000"));
-    taskList->setPalette(palette);
 
     QVBoxLayout *hintLayout = new QVBoxLayout();
     hintLayout->addStretch();

@@ -9,20 +9,24 @@ QWidget {
 
 QListWidget{
 
-    background-color: palette(window);
+    background-color: transparent;
 
-    font-size: 42px;
+    font-size: 15px;
 
     margin: 0px 0px 10px 0px;
 
     border: none;
-
+    outline: none;
 
 }
 
-QListWidget::item:selected {
-    background-color: #e6e6e9;
+QListWidget::item {
+    padding: 8px 12px;
+}
 
+QListWidget::item:selected {
+    background-color: palette(highlight);
+    color: palette(highlighted-text);
     border-radius: 8px;
 }
 
@@ -50,4 +54,29 @@ QLabel#subHintLabel {
     font-weight: 400;
     color: palette(placeholder-text);
     letter-spacing: 1px;
+}
+
+QScrollBar:vertical {
+    width: 8px;
+    background-color: transparent;
+    border: none;
+}
+
+QScrollBar::handle:vertical {
+    background-color: palette(button);
+    border-radius: 4px;
+    min-height: 30px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background-color: palette(placeholder-text);
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    height: 0px;
+    border: none;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background-color: transparent;
 }
