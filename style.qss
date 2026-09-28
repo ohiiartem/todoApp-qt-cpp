@@ -30,20 +30,37 @@ QListWidget::item:selected {
     border-radius: 8px;
 }
 
-QLineEdit {
-    min-height: 48px;
+QListWidget::item:selected:!active {
+    background-color: palette(base);
+    color: palette(text);
 
-    font-size: 42px;
 }
 
-QLineEdit::placeholder {
-    color: #e6e6e9;
+QLineEdit {
+    min-height: 40px;
+    font-size: 15px;
+
+    padding: 10px 12px;
+
+    background-color: palette(base);
+    color: palette(text);
+
+    border: 1px solid palette(mid);
+    border-radius: 8px;
+
+    selection-background-color: palette(accent);
+    selection-color: palette(window);
+}
+
+QLineEdit:focus {
+    border-color: palette(accent);
 }
 
 
 QLabel#hintLabel {
     font-size: 64px;
     font-weight: 600;
+
     color: palette(text);
     letter-spacing: 2px;
 }

@@ -23,7 +23,6 @@ MainWindow::MainWindow(QWidget *parent)
     hintContainer = new QWidget;
 
     taskLineEdit = new QLineEdit();
-    taskLineEdit->setAlignment(Qt::AlignCenter);
     taskLineEdit->setPlaceholderText("Enter task...");
     taskLineEdit->hide();
 
@@ -201,7 +200,9 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
             {
                 editingIndex = row;
                 taskLineEdit->setText(taskManager.taskAt(row).text());
+                taskLineEdit->selectAll();
                 stateMachine.requestCreateTask();
+
             }
             return true;
         }
