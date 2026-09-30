@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QListWidget>
+#include <QProgressBar>
 
 class MainWindow : public QMainWindow
 {
@@ -24,6 +25,8 @@ private:
 
     QLabel* counterLabel;
     QToolButton* helpButton;
+
+    QProgressBar *progressBar;
 
     QLabel *hintLabel;
     QLabel *subHintLabel;

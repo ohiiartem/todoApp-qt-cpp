@@ -58,6 +58,11 @@ MainWindow::MainWindow(QWidget *parent)
     counterLayout->addWidget(helpButton);
     counterLayout->setContentsMargins(21, 0, 21, 0);
 
+    progressBar = new QProgressBar;
+    progressBar->setObjectName("progressBar");
+    progressBar->setTextVisible(false);
+    progressBar->setFixedHeight(3);
+
     QVBoxLayout *hintLayout = new QVBoxLayout();
     hintLayout->addStretch();
     hintLayout->addWidget(hintLabel);
@@ -68,6 +73,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     QVBoxLayout *layout = new QVBoxLayout();
     layout->addLayout(counterLayout);
+    layout->addWidget(progressBar);
     layout->addWidget(taskList, 1);
     layout->addWidget(hintContainer,1);
     layout->addWidget(taskLineEdit);
@@ -318,4 +324,17 @@ void MainWindow::refreshTaskList()
     counterLabel->setText(QString("%1 / %2 done")
                               .arg(taskManager.completedCount())
                               .arg(taskManager.taskCount()));
+
+    if(taskManager.taskCount() < 1)
+    {
+        progressBar->hide();
+    }
+    else
+    {
+        progressBar->show();
+
+        progressBar->setMaximum(taskManager.taskCount());
+        progressBar->setValue(taskManager.completedCount());
+    }
+
 }

@@ -68,6 +68,21 @@ QToolButton#helpButton:hover {
     color: palette(accent);
 }
 
+
+QProgressBar#progressBar {
+    background-color: palette(mid);
+    border: none;
+    border-radius: 2px;
+
+    margin-left: 17px;
+    margin-right: 17px;
+}
+
+QProgressBar#progressBar::chunk {
+    background-color: palette(accent);
+    border-radius: 2px;
+}
+
 QLineEdit {
     min-height: 40px;
     font-size: 15px;
