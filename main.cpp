@@ -5,6 +5,7 @@
 #include <QFontDatabase>
 #include <QDebug>
 #include <QFileSystemWatcher>
+#include <QStyleHints>
 
 static QString styleSheetPath()
 {
@@ -39,6 +40,7 @@ int main(int argc, char *argv[])
 
 
     app.setPalette(makePalette(darkTheme()));
+    app.styleHints()->setColorScheme(Qt::ColorScheme::Dark);
     applyStyleSheet();
 
 #ifdef QT_DEBUG

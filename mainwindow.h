@@ -22,6 +22,8 @@ protected:
 
 private:
 
+    QLabel* counterLabel;
+    QToolButton* helpButton;
 
     QLabel *hintLabel;
     QLabel *subHintLabel;

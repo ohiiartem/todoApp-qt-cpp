@@ -4,7 +4,10 @@
 #include <QKeyEvent>
 #include <QLabel>
 #include <QLineEdit>
+#include <QToolButton>
+
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -34,6 +37,27 @@ MainWindow::MainWindow(QWidget *parent)
 
     taskList->installEventFilter(this);
 
+    QHBoxLayout *counterLayout = new QHBoxLayout;
+    helpButton = new QToolButton;
+
+    counterLabel = new QLabel();
+    QLabel *appTitleLabel = new QLabel();
+
+    appTitleLabel->setText("todo");
+    helpButton->setText("?");
+
+    appTitleLabel->setObjectName("appTitle");
+    counterLabel->setObjectName("counterLabel");
+    helpButton->setObjectName("helpButton");
+
+    helpButton->setFocusPolicy(Qt::NoFocus);
+
+    counterLayout->addWidget(appTitleLabel);
+    counterLayout->addStretch();
+    counterLayout->addWidget(counterLabel);
+    counterLayout->addWidget(helpButton);
+    counterLayout->setContentsMargins(21, 0, 21, 0);
+
     QVBoxLayout *hintLayout = new QVBoxLayout();
     hintLayout->addStretch();
     hintLayout->addWidget(hintLabel);
@@ -43,6 +67,7 @@ MainWindow::MainWindow(QWidget *parent)
     hintContainer->setLayout(hintLayout);
 
     QVBoxLayout *layout = new QVBoxLayout();
+    layout->addLayout(counterLayout);
     layout->addWidget(taskList, 1);
     layout->addWidget(hintContainer,1);
     layout->addWidget(taskLineEdit);
@@ -269,7 +294,6 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
 
 void MainWindow::refreshTaskList()
 {
-    // Remembered before clear(), which resets the selection.
     int row = taskList->currentRow();
     taskList->clear();
     for (int i = 0;i < taskManager.taskCount();i++)
@@ -286,9 +310,12 @@ void MainWindow::refreshTaskList()
         item->setHidden(hidingCompleted && task.isCompleted());
     }
 
-    // The row may now be past the end (last task deleted), so clamp it.
     if (taskManager.taskCount() <= row)
         taskList->setCurrentRow(taskManager.taskCount() - 1);
     else
         taskList->setCurrentRow(row);
+
+    counterLabel->setText(QString("%1 / %2 done")
+                              .arg(taskManager.completedCount())
+                              .arg(taskManager.taskCount()));
 }
