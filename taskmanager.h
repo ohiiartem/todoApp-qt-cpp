@@ -4,7 +4,6 @@
 #include <QVector>
 #include "task.h"
 
-// Owns the task list and its JSON persistence. No GUI dependency, so it is testable without the interface.
 class TaskManager
 {
 public:
@@ -20,6 +19,7 @@ public:
     void moveTask(int from, int to);
 
     int taskCount() const;
+    int completedCount() const;
     const Task& taskAt(int index) const;
 
 private:

@@ -71,3 +71,17 @@ TEST(TaskManagerTest, SetTaskTextChangesText)
     manager.setTaskText(0, " ");
     EXPECT_EQ("new text", manager.taskAt(0).text());
 }
+
+TEST(TaskManagerTest, CompletedCountCountsOnlyCompletedTasks)
+{
+    TaskManager manager;
+
+    manager.addTask("first");
+    manager.addTask("second");
+    manager.addTask("third");
+
+    manager.toggleCompleted(0);
+    manager.toggleCompleted(1);
+
+    EXPECT_EQ(2, manager.completedCount());
+}
