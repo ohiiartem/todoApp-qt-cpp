@@ -22,12 +22,14 @@ QListWidget{
 
 QListWidget::item {
     padding: 8px 12px;
+    border-left: 3px solid transparent;
 }
 
 QListWidget::item:selected {
     background-color: palette(highlight);
     color: palette(highlighted-text);
-    border-radius: 8px;
+    border-radius: 1px;
+    border-left-color: palette(accent);
 }
 
 QListWidget::item:selected:!active {
