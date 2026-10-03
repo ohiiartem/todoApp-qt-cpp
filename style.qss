@@ -144,3 +144,30 @@ QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
 QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
     background-color: transparent;
 }
+
+
+QWidget#footer {
+    border-top: 1px solid palette(mid);
+    padding-top: 8px;
+}
+
+QLabel[kind="key"] {
+    background-color: palette(button);
+    color: palette(button-text);
+    border-bottom: 2px solid palette(dark);
+    border-radius: 5px;
+    padding: 2px 7px;
+    font-size: 11px;
+}
+
+QLabel[kind="hint"] {
+    color: palette(placeholder-text);
+    font-size: 11px;
+}
+
+
+
+
+
+
+

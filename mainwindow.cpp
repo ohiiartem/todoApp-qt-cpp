@@ -71,12 +71,43 @@ MainWindow::MainWindow(QWidget *parent)
     hintLayout->addStretch();
     hintContainer->setLayout(hintLayout);
 
+    QWidget * footer = new QWidget;
+    footer->setObjectName("footer");
+
+    QHBoxLayout * footerLayout = new QHBoxLayout;
+
+    footer->setLayout(footerLayout);
+
+    const QVector<QPair<QString, QString>> keyHints = {
+        {"n", "new"},
+        {"space", "done"},
+        {"d", "delete"},
+        {"e", "edit"},
+        {"h", "hide"},
+        {"⌘+↑↓", "move"}
+    };
+
+    for (const auto &pair : keyHints)
+    {
+        QLabel * keyLabel = new QLabel(pair.first);
+        keyLabel->setProperty("kind", "key");
+
+        QLabel * descLabel = new QLabel(pair.second);
+        descLabel->setProperty("kind","hint");
+
+        footerLayout->addWidget(keyLabel);
+        footerLayout->addWidget(descLabel);
+    }
+
+    footerLayout->addStretch();
+
     QVBoxLayout *layout = new QVBoxLayout();
     layout->addLayout(counterLayout);
     layout->addWidget(progressBar);
     layout->addWidget(taskList, 1);
     layout->addWidget(hintContainer,1);
     layout->addWidget(taskLineEdit);
+    layout->addWidget(footer);
 
     connect(&stateMachine, &AppStateMachine::stateChanged, this, &MainWindow::onStateChanged);
     connect(taskLineEdit, &QLineEdit::returnPressed, this, &MainWindow::onTaskConfirmed);
@@ -84,7 +115,6 @@ MainWindow::MainWindow(QWidget *parent)
     QWidget *centralWidget = new QWidget(this);
     centralWidget->setLayout(layout);
     setCentralWidget(centralWidget);
-
 
     taskManager.load();
     refreshTaskList();
