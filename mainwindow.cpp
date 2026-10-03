@@ -87,6 +87,8 @@ MainWindow::MainWindow(QWidget *parent)
         {"⌘+↑↓", "move"}
     };
 
+    footerLayout->addStretch();
+
     for (const auto &pair : keyHints)
     {
         QLabel * keyLabel = new QLabel(pair.first);
@@ -106,6 +108,7 @@ MainWindow::MainWindow(QWidget *parent)
     layout->addWidget(progressBar);
     layout->addWidget(taskList, 1);
     layout->addWidget(hintContainer,1);
+    layout->addStretch(0);
     layout->addWidget(taskLineEdit);
     layout->addWidget(footer);
 
@@ -113,7 +116,19 @@ MainWindow::MainWindow(QWidget *parent)
     connect(taskLineEdit, &QLineEdit::returnPressed, this, &MainWindow::onTaskConfirmed);
 
     QWidget *centralWidget = new QWidget(this);
-    centralWidget->setLayout(layout);
+
+
+    QWidget *contentWidget = new QWidget();
+    contentWidget->setMaximumWidth(900);
+
+    QHBoxLayout *outerLayout = new QHBoxLayout();
+    outerLayout->addStretch();
+    outerLayout->addWidget(contentWidget, 1);
+    outerLayout->addStretch();
+
+    contentWidget->setLayout(layout);
+
+    centralWidget->setLayout(outerLayout);
     setCentralWidget(centralWidget);
 
     taskManager.load();
