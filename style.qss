@@ -107,16 +107,19 @@ QLineEdit:focus {
 
 
 QLabel#hintLabel {
-    font-size: 64px;
-    font-weight: 600;
+    font-size: 40px;
+    font-weight: 500;
 
-    color: palette(text);
-    letter-spacing: 2px;
+    color: palette(button-text);
+    background-color: palette(button);
+
+    border-radius: 12px;
+    padding: 16px 34px;
 }
 
 
 QLabel#subHintLabel {
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 400;
     color: palette(placeholder-text);
     letter-spacing: 1px;

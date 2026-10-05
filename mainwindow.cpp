@@ -65,13 +65,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     QVBoxLayout *hintLayout = new QVBoxLayout();
     hintLayout->addStretch();
-    hintLayout->addWidget(hintLabel);
+    hintLayout->addWidget(hintLabel, 0, Qt::AlignHCenter);
     hintLayout->addSpacing(10);
     hintLayout->addWidget(subHintLabel);
     hintLayout->addStretch();
     hintContainer->setLayout(hintLayout);
 
-    QWidget * footer = new QWidget;
+    footer = new QWidget;
     footer->setObjectName("footer");
 
     QHBoxLayout * footerLayout = new QHBoxLayout;
@@ -145,7 +145,7 @@ void MainWindow::onStateChanged(AppState newState)
     switch (newState)
     {
     case AppState::Empty:
-        hintLabel->setText("Press N");
+        hintLabel->setText("N");
         subHintLabel->setText("to create a task");
 
         taskLineEdit->hide();
@@ -373,10 +373,12 @@ void MainWindow::refreshTaskList()
     if(taskManager.taskCount() < 1)
     {
         progressBar->hide();
+        counterLabel->hide();
     }
     else
     {
         progressBar->show();
+        counterLabel->show();
 
         progressBar->setMaximum(taskManager.taskCount());
         progressBar->setValue(taskManager.completedCount());

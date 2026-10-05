@@ -36,6 +36,8 @@ private:
     QListWidget *taskList;
     int editingIndex = -1;
 
+    QWidget *footer;
+
     TaskManager taskManager;
     AppStateMachine stateMachine;
 
