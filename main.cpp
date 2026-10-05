@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 #endif
 
     app.setApplicationName("To Do");
-    app.setApplicationVersion("1.5");
+    app.setApplicationVersion("1.6");
 
     MainWindow w;
     w.show();
