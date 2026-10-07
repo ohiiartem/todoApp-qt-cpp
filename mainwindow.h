@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QListWidget>
+#include <QProgressBar>
 
 class MainWindow : public QMainWindow
 {
@@ -22,13 +23,20 @@ protected:
 
 private:
 
+    QLabel* counterLabel;
+    QToolButton* helpButton;
+
+    QProgressBar *progressBar;
 
     QLabel *hintLabel;
     QLabel *subHintLabel;
+    QWidget *hintContainer;
 
     QLineEdit *taskLineEdit;
     QListWidget *taskList;
     int editingIndex = -1;
+
+    QWidget *footer;
 
     TaskManager taskManager;
     AppStateMachine stateMachine;

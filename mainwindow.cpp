@@ -4,12 +4,16 @@
 #include <QKeyEvent>
 #include <QLabel>
 #include <QLineEdit>
+#include <QToolButton>
+
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    setFixedSize(1400, 750);
+    setMinimumSize(560, 420);
+    resize(900, 650);
 
     hintLabel = new QLabel();
     hintLabel->setObjectName("hintLabel");
@@ -19,38 +23,113 @@ MainWindow::MainWindow(QWidget *parent)
     subHintLabel->setObjectName("subHintLabel");
     subHintLabel->setAlignment(Qt::AlignCenter);
 
+    hintContainer = new QWidget;
+
     taskLineEdit = new QLineEdit();
-    taskLineEdit->setAlignment(Qt::AlignCenter);
     taskLineEdit->setPlaceholderText("Enter task...");
     taskLineEdit->hide();
 
     taskList = new QListWidget();
+    taskList->setSpacing(3);
+    taskList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    taskList->setFrameShape(QFrame::NoFrame);
+
 
     taskList->installEventFilter(this);
 
-    QPalette palette = taskList->palette();
-    palette.setColor(QPalette::HighlightedText, QColor("#000000"));
-    taskList->setPalette(palette);
+    QHBoxLayout *counterLayout = new QHBoxLayout;
+    helpButton = new QToolButton;
 
+    counterLabel = new QLabel();
+    QLabel *appTitleLabel = new QLabel();
+
+    appTitleLabel->setText("todo");
+    helpButton->setText("?");
+
+    appTitleLabel->setObjectName("appTitle");
+    counterLabel->setObjectName("counterLabel");
+    helpButton->setObjectName("helpButton");
+
+    helpButton->setFocusPolicy(Qt::NoFocus);
+
+    counterLayout->addWidget(appTitleLabel);
+    counterLayout->addStretch();
+    counterLayout->addWidget(counterLabel);
+    counterLayout->addWidget(helpButton);
+    counterLayout->setContentsMargins(21, 0, 21, 0);
+
+    progressBar = new QProgressBar;
+    progressBar->setObjectName("progressBar");
+    progressBar->setTextVisible(false);
+    progressBar->setFixedHeight(3);
+
+    QVBoxLayout *hintLayout = new QVBoxLayout();
+    hintLayout->addStretch();
+    hintLayout->addWidget(hintLabel, 0, Qt::AlignHCenter);
+    hintLayout->addSpacing(10);
+    hintLayout->addWidget(subHintLabel);
+    hintLayout->addStretch();
+    hintContainer->setLayout(hintLayout);
+
+    footer = new QWidget;
+    footer->setObjectName("footer");
+
+    QHBoxLayout * footerLayout = new QHBoxLayout;
+
+    footer->setLayout(footerLayout);
+
+    const QVector<QPair<QString, QString>> keyHints = {
+        {"n", "new"},
+        {"space", "done"},
+        {"d", "delete"},
+        {"e", "edit"},
+        {"h", "hide"},
+        {"⌘+↑↓", "move"}
+    };
+
+    footerLayout->addStretch();
+
+    for (const auto &pair : keyHints)
+    {
+        QLabel * keyLabel = new QLabel(pair.first);
+        keyLabel->setProperty("kind", "key");
+
+        QLabel * descLabel = new QLabel(pair.second);
+        descLabel->setProperty("kind","hint");
+
+        footerLayout->addWidget(keyLabel);
+        footerLayout->addWidget(descLabel);
+    }
+
+    footerLayout->addStretch();
 
     QVBoxLayout *layout = new QVBoxLayout();
-    layout->addWidget(taskList);
+    layout->addLayout(counterLayout);
+    layout->addWidget(progressBar);
+    layout->addWidget(taskList, 1);
+    layout->addWidget(hintContainer,1);
+    layout->addStretch(0);
     layout->addWidget(taskLineEdit);
-    layout->addStretch();
-    layout->addWidget(hintLabel);
-    layout->addSpacing(10);
-    layout->addWidget(subHintLabel);
-    layout->addStretch();
+    layout->addWidget(footer);
 
     connect(&stateMachine, &AppStateMachine::stateChanged, this, &MainWindow::onStateChanged);
     connect(taskLineEdit, &QLineEdit::returnPressed, this, &MainWindow::onTaskConfirmed);
 
-    layout->setAlignment(Qt::AlignCenter);
-
     QWidget *centralWidget = new QWidget(this);
-    centralWidget->setLayout(layout);
-    setCentralWidget(centralWidget);
 
+
+    QWidget *contentWidget = new QWidget();
+    contentWidget->setMaximumWidth(900);
+
+    QHBoxLayout *outerLayout = new QHBoxLayout();
+    outerLayout->addStretch();
+    outerLayout->addWidget(contentWidget, 1);
+    outerLayout->addStretch();
+
+    contentWidget->setLayout(layout);
+
+    centralWidget->setLayout(outerLayout);
+    setCentralWidget(centralWidget);
 
     taskManager.load();
     refreshTaskList();
@@ -66,22 +145,20 @@ void MainWindow::onStateChanged(AppState newState)
     switch (newState)
     {
     case AppState::Empty:
-        hintLabel->setText("Press N");
+        hintLabel->setText("N");
         subHintLabel->setText("to create a task");
 
         taskLineEdit->hide();
         taskList->hide();
 
-        hintLabel->show();
-        subHintLabel->show();
+        hintContainer->show();
 
         this->setFocus();
 
         break;
 
     case AppState::CreatingTask:
-        hintLabel->hide();
-        subHintLabel->hide();
+        hintContainer->hide();
 
         taskLineEdit->show();
         taskLineEdit->setFocus();
@@ -96,8 +173,7 @@ void MainWindow::onStateChanged(AppState newState)
 
     case AppState::ListViewMode:
         taskLineEdit->hide();
-        hintLabel->hide();
-        subHintLabel->hide();
+        hintContainer->hide();
 
         taskList->show();
         taskList->setFocus();
@@ -200,7 +276,9 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
             {
                 editingIndex = row;
                 taskLineEdit->setText(taskManager.taskAt(row).text());
+                taskLineEdit->selectAll();
                 stateMachine.requestCreateTask();
+
             }
             return true;
         }
@@ -267,7 +345,6 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
 
 void MainWindow::refreshTaskList()
 {
-    // Remembered before clear(), which resets the selection.
     int row = taskList->currentRow();
     taskList->clear();
     for (int i = 0;i < taskManager.taskCount();i++)
@@ -284,9 +361,27 @@ void MainWindow::refreshTaskList()
         item->setHidden(hidingCompleted && task.isCompleted());
     }
 
-    // The row may now be past the end (last task deleted), so clamp it.
     if (taskManager.taskCount() <= row)
         taskList->setCurrentRow(taskManager.taskCount() - 1);
     else
         taskList->setCurrentRow(row);
+
+    counterLabel->setText(QString("%1 / %2 done")
+                              .arg(taskManager.completedCount())
+                              .arg(taskManager.taskCount()));
+
+    if(taskManager.taskCount() < 1)
+    {
+        progressBar->hide();
+        counterLabel->hide();
+    }
+    else
+    {
+        progressBar->show();
+        counterLabel->show();
+
+        progressBar->setMaximum(taskManager.taskCount());
+        progressBar->setValue(taskManager.completedCount());
+    }
+
 }

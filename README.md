@@ -15,21 +15,15 @@ todoApp is a desktop productivity tool designed around a single principle: your 
   </tr>
   <tr>
     <td align="center">Empty state</td>
-    <td align="center">Task list</td>
+    <td align="center">Task list with progress and completed tasks</td>
   </tr>
   <tr>
     <td><img src="screenshots/editing.png" width="400"/></td>
-    <td><img src="screenshots/strikethrough.png" width="400"/></td>
+    <td><img src="screenshots/hide-completed.png" width="400"/></td>
   </tr>
   <tr>
     <td align="center">Inline editing</td>
-    <td align="center">Completed tasks (strikethrough)</td>
-  </tr>
-  <tr>
-    <td colspan="2" align="center"><img src="screenshots/hide-completed.png" width="400"/></td>
-  </tr>
-  <tr>
-    <td colspan="2" align="center">Completed tasks hidden</td>
+    <td align="center">Completed tasks hidden</td>
   </tr>
 </table>
 
@@ -40,7 +34,9 @@ todoApp is a desktop productivity tool designed around a single principle: your 
 - Strikethrough toggle for completed tasks
 - Hide / show completed tasks
 - Task reordering via keyboard
-- Clean off-white UI with QSS styling
+- Dark theme driven by a single colour palette, applied through QSS
+- Task counter and progress bar for completed work
+- Keyboard legend always visible in the footer
 - Custom Roboto font embedded via Qt resources
 ## Keyboard Shortcuts
 | Key | Action |
@@ -128,20 +124,22 @@ todoApp-qt-cpp/
 ├── AppStateMachine.h/.cpp  # App states and the transitions between them
 ├── taskmanager.h/.cpp      # Owns the task list, JSON persistence
 ├── task.h/.cpp             # A single task: text + completed flag
+├── theme.h/.cpp            # Colour palette the stylesheet reads through QPalette
 ├── tests/                  # GoogleTest unit tests for the model
 ├── style.qss               # App-wide styles
 ├── resources.qrc           # Embedded fonts & styles
 └── fonts/
-    └── Roboto-Regular.ttf
+    └── Roboto-Regular/Medium/Bold.ttf
 ```
 ## Status
-**v1.5** — keyboard shortcuts complete, standalone `.dmg` available.
+**v1.6** — dark UI redesign: a palette-driven theme, task counter, progress bar, and an always-visible keyboard legend.
 
-Since then the model has been separated from the interface, the core logic moved into its own library, and unit tests and CI were added.
+Earlier: the model was separated from the interface, the core logic moved into its own library, and unit tests and CI were added. **v1.5** shipped the full set of keyboard shortcuts and a standalone `.dmg`.
 
 Planned:
+- Custom item delegate for task rows, with a model behind the list
+- Light theme alongside the dark one
 - Undo / redo for task operations
 - Task priorities (High / Medium / Low)
-- Updated UI / UX
 ## About
 Built by **@ohiiartem** as a learning project — C++ and Qt from scratch.

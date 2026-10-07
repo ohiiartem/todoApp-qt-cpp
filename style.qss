@@ -1,5 +1,5 @@
 QMainWindow {
-    background-color: #f4f4f6;
+    background-color: palette(window);
 }
 
 QWidget {
@@ -9,46 +9,170 @@ QWidget {
 
 QListWidget{
 
-    background-color: #f4f4f6;
+    background-color: transparent;
 
-    font-size: 42px;
+    font-size: 15px;
 
     margin: 0px 0px 10px 0px;
 
     border: none;
+    outline: none;
 
-    min-height: 740px;
+}
 
+QListWidget::item {
+    padding: 8px 12px;
+    border-left: 3px solid transparent;
 }
 
 QListWidget::item:selected {
-    background-color: #e6e6e9;
+    background-color: palette(highlight);
+    color: palette(highlighted-text);
+    border-radius: 1px;
+    border-left-color: palette(accent);
+}
 
-    border-radius: 8px;
+QListWidget::item:selected:!active {
+    background-color: palette(base);
+    color: palette(text);
+}
+
+
+QLabel#appTitle {
+    font-size: 13px;
+    color: palette(placeholder-text);
+    letter-spacing: 1px;
+}
+
+QLabel#counterLabel {
+    font-size: 12px;
+    color: palette(placeholder-text);
+}
+
+QToolButton#helpButton {
+    min-width: 22px;
+    max-width: 22px;
+
+    min-height: 22px;
+    max-height: 22px;
+
+    border-radius: 11px;
+    border: 1px solid palette(mid);
+
+    background-color: transparent;
+    color: palette(placeholder-text);
+    font-size: 12px;
+}
+
+
+QToolButton#helpButton:hover {
+    border-color: palette(accent);
+    color: palette(accent);
+}
+
+
+QProgressBar#progressBar {
+    background-color: palette(mid);
+    border: none;
+    border-radius: 2px;
+
+    margin-left: 17px;
+    margin-right: 17px;
+}
+
+QProgressBar#progressBar::chunk {
+    background-color: palette(accent);
+    border-radius: 2px;
 }
 
 QLineEdit {
-    min-height: 48px;
+    min-height: 40px;
+    font-size: 15px;
 
-    font-size: 42px;
+    padding: 10px 12px;
+
+    background-color: palette(base);
+    color: palette(text);
+
+    border: 1px solid palette(mid);
+    border-radius: 8px;
+
+    selection-background-color: palette(accent);
+    selection-color: palette(window);
 }
 
-QLineEdit::placeholder {
-    color: #e6e6e9;
+QLineEdit:focus {
+    border-color: palette(accent);
 }
 
 
 QLabel#hintLabel {
-    font-size: 64px;
-    font-weight: 600;
-    color: #000000;
-    letter-spacing: 2px;
+    font-size: 40px;
+    font-weight: 500;
+
+    color: palette(button-text);
+    background-color: palette(button);
+
+    border-radius: 12px;
+    padding: 16px 34px;
 }
 
 
 QLabel#subHintLabel {
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 400;
-    color: #66666e;
+    color: palette(placeholder-text);
     letter-spacing: 1px;
 }
+
+QScrollBar:vertical {
+    width: 8px;
+    background-color: transparent;
+    border: none;
+}
+
+QScrollBar::handle:vertical {
+    background-color: palette(button);
+    border-radius: 4px;
+    min-height: 30px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background-color: palette(placeholder-text);
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    height: 0px;
+    border: none;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background-color: transparent;
+}
+
+
+QWidget#footer {
+    border-top: 1px solid palette(mid);
+    padding-top: 8px;
+}
+
+QLabel[kind="key"] {
+    background-color: palette(button);
+    color: palette(button-text);
+    border-bottom: 2px solid palette(dark);
+    border-radius: 5px;
+    padding: 2px 7px;
+    font-size: 11px;
+}
+
+QLabel[kind="hint"] {
+    color: palette(placeholder-text);
+    font-size: 11px;
+}
+
+
+
+
+
+
+

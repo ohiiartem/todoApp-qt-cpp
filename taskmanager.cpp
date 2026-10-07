@@ -96,6 +96,18 @@ int TaskManager::taskCount() const
     return tasks.size();
 }
 
+int TaskManager::completedCount() const
+{
+    int count = 0;
+    for (const Task &task : tasks)
+    {
+        if (task.isCompleted()) {
+            count++;
+        }
+    }
+    return count;
+}
+
 const Task& TaskManager::taskAt(int index) const
 {
     return tasks.at(index); //TODO: no bounds check — caller must pass a valid index
