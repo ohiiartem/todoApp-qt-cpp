@@ -45,6 +45,7 @@ private:
 
     using AppState = AppStateMachine::AppState;
 
+    int nextVisibleRow(int from, int step) const;
     void refreshTaskList();
 
 private slots:

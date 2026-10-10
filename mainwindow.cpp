@@ -139,6 +139,21 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow() {}
 
+int MainWindow::nextVisibleRow(int from, int step) const {
+    int n = taskList->count();
+    if (n == 0)
+        return -1;
+
+    for (int i = 1;i <= n;i++)
+    {
+        int candidate = (from + step * i + n) % n;
+        if (!(taskList->item(candidate)->isHidden())) {
+            return candidate;
+        }
+    }
+    return -1;
+}
+
 void MainWindow::onStateChanged(AppState newState)
 {
 
@@ -293,6 +308,9 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
 
         if (keyEvent->modifiers() & Qt::ControlModifier)
         {
+            if (hidingCompleted && (keyEvent->key() == Qt::Key_Up  || keyEvent->key() == Qt::Key_Down)) {
+                return true;
+            }
             int row = taskList->currentRow();
             if (row == - 1) return true;
 
@@ -320,22 +338,19 @@ bool MainWindow::eventFilter(QObject *obj ,QEvent *event)
         {
             int row = taskList->currentRow();
             if (row == -1) return true;
-            if(row == 0)
-                taskList->setCurrentRow(taskList->count() - 1);
-            else
-                taskList->setCurrentRow(row - 1);
+            int next = nextVisibleRow(row, -1);
+            if (next != -1)
+                taskList->setCurrentRow(next);
             return true;
-
         }
 
         if(keyEvent->key() == Qt::Key_Down)
         {
             int row = taskList->currentRow();
-            if(row == - 1) return true;
-            if(row == taskList->count() - 1)
-                taskList->setCurrentRow(0);
-            else
-                taskList->setCurrentRow(row + 1);
+            if(row == -1) return true;
+            int next = nextVisibleRow(row, 1);
+            if (next != -1)
+                taskList->setCurrentRow(next);
             return true;
         }
 
@@ -382,6 +397,12 @@ void MainWindow::refreshTaskList()
 
         progressBar->setMaximum(taskManager.taskCount());
         progressBar->setValue(taskManager.completedCount());
+    }
+
+    if (taskList->currentItem() != nullptr && taskList->currentItem()->isHidden()) {
+        int next = nextVisibleRow(taskList->currentRow(), 1);
+        if (next != -1)
+            taskList->setCurrentRow(next);
     }
 
 }
