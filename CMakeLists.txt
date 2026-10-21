@@ -32,6 +32,16 @@ target_link_libraries(ToDoApp PRIVATE todoapp_core Qt6::Widgets)
 
 target_compile_definitions(ToDoApp PRIVATE QSS_SOURCE_PATH="${CMAKE_CURRENT_SOURCE_DIR}/style.qss")
 
+if(APPLE)
+    set_target_properties(ToDoApp PROPERTIES
+        MACOSX_BUNDLE TRUE
+        MACOSX_BUNDLE_BUNDLE_NAME "To Do"
+        MACOSX_BUNDLE_GUI_IDENTIFIER com.ohiiartem.todoapp
+        MACOSX_BUNDLE_SHORT_VERSION_STRING "1.6"
+        MACOSX_BUNDLE_BUNDLE_VERSION "1.6"
+    )
+endif()
+
 #----Tests
 
 option(TODOAPP_BUILD_TESTS "Build unit tests" ON)
