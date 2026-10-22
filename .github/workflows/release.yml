@@ -30,7 +30,10 @@ jobs:
         run: cmake --build build-release
 
       - name: Package
-        run: macdeployqt build-release/ToDoApp.app -dmg
+        run: |
+          macdeployqt build-release/ToDoApp.app
+          codesign --force --deep --sign - build-release/ToDoApp.app
+          hdiutil create -volname "To Do" -srcfolder build-release/ToDoApp.app -ov -format UDZO build-release/ToDoApp.dmg
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
