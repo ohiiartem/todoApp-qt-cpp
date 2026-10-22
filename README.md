@@ -52,6 +52,13 @@ todoApp is a desktop productivity tool designed around a single principle: your 
 | `H` | Hide / show completed tasks |
 ## Download
 Grab the latest `.dmg` from [Releases](https://github.com/ohiiartem/todoApp-qt-cpp/releases) — no Qt installation required.
+
+The app is not signed with an Apple Developer certificate, so macOS blocks it on first launch. To allow it: open **System Settings → Privacy & Security**, scroll to the Security section, and press **Open Anyway** next to the message about ToDoApp. The entry appears only after you have tried to open the app once.
+
+If you prefer the terminal, clearing the quarantine flag does the same thing:
+
+```bash
+xattr -dr com.apple.quarantine /Applications/ToDoApp.app
 ## Tech Stack
 | | |
 |---|---|
