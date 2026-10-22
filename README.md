@@ -69,7 +69,7 @@ xattr -dr com.apple.quarantine /Applications/ToDoApp.app
 | Storage | JSON |
 | Styles | QSS (Qt Style Sheets) |
 | Testing | GoogleTest + CTest |
-| CI | GitHub Actions (build + tests on Ubuntu) |
+| CI | GitHub Actions — build + tests on Ubuntu, signed `.dmg` on tags |
 ## Architecture
 The app is split so that the task logic does not depend on the interface:
 
