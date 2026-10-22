@@ -59,6 +59,7 @@ If you prefer the terminal, clearing the quarantine flag does the same thing:
 
 ```bash
 xattr -dr com.apple.quarantine /Applications/ToDoApp.app
+```
 ## Tech Stack
 | | |
 |---|---|
